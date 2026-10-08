@@ -160,25 +160,25 @@ Map visible product areas, available roles, observable business rules, and criti
 
 ### Tasks
 
-- [ ] Review accessible product documentation and record inaccessible pages.
-- [ ] Inventory visible product areas, navigation, role options, and key workflows.
-- [ ] Record entities, states, and relationships only where the UI/docs establish them.
-- [ ] Identify roles and permissions.
-- [ ] Identify bill lifecycle states.
-- [ ] Identify approval rules.
-- [ ] Identify payment rules.
-- [ ] Identify recurring bill behavior.
-- [ ] Identify invoice intake behavior.
-- [ ] Identify cron/scheduled processing.
-- [ ] Identify validation rules.
-- [ ] Note concurrency/idempotency risks; implementation mechanisms are unknown without source access.
-- [ ] Identify visible audit/activity history, if available.
-- [ ] Identify known product limitations.
-- [ ] Identify external dependencies.
+- [x] Review accessible product documentation and record inaccessible pages.
+- [x] Inventory visible product areas, navigation, role options, and key workflows.
+- [x] Record entities, states, and relationships only where the UI/docs establish them.
+- [x] Identify roles and permissions.
+- [x] Identify bill lifecycle states.
+- [x] Identify approval rules.
+- [x] Identify payment rules.
+- [x] Identify recurring bill behavior.
+- [x] Identify invoice intake behavior.
+- [x] Identify cron/scheduled processing.
+- [x] Identify validation rules.
+- [x] Note concurrency/idempotency risks; mechanisms are documented but unverified without controlled access/source-level validation.
+- [x] Identify visible audit/activity history, if available.
+- [x] Identify known product limitations.
+- [x] Identify external dependencies.
 
 ### Deliverable
 
-`docs/demo-overview.md`, including observed behavior, evidence sources, unknowns, and limitations.
+`docs/demo-overview.md`, including observed behavior, evidence sources, unknowns, and limitations. Completed 2026-10-08.
 
 ---
 
