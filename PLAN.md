@@ -428,6 +428,12 @@ billio-qa-automation/
 
 # 11. Phase 7 — Automation Stack
 
+Completed 2026-10-10: initialized Playwright Test, TypeScript, ESLint,
+Prettier, npm scripts, and a Chromium project configuration. See
+`package.json`, `playwright.config.ts`, and
+[`docs/automation-architecture.md`](docs/automation-architecture.md).
+No test cases or CI workflow have been added in this phase.
+
 Initial stack:
 
 - TypeScript

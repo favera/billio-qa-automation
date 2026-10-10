@@ -4,10 +4,10 @@ Last reviewed: 2026-10-10
 
 ## Purpose and boundary
 
-This document defines the proposed architecture for a small, risk-led
-Playwright suite against the deployed Billio demo. It is a design, not an
-implemented framework: no package setup, tests, fixtures, or CI workflow
-are created in Phase 6. The first milestone can assert only browser-visible
+This document defines the architecture for a small, risk-led Playwright
+suite against the deployed Billio demo. The TypeScript/Playwright tooling
+scaffold is now in place; tests, custom fixtures, and CI workflow are not
+implemented yet. The first milestone can assert only browser-visible
 behavior. In particular, role selection through the demo switcher is not
 authentication and cannot establish server-side authorization, persistence,
 or ledger correctness.
@@ -45,6 +45,7 @@ billio-qa-automation/
 ├── utils/                           # small domain helpers if duplication appears
 ├── playwright.config.ts
 ├── package.json
+├── package-lock.json
 ├── tsconfig.json
 ├── .env.example                     # BASE_URL placeholder only, if needed
 └── .gitignore                       # local env and generated artifacts
@@ -57,7 +58,8 @@ Billio application separate from this QA repository.
 ## Runtime and configuration
 
 - Use TypeScript, Playwright Test, and Node.js; add dependencies only for
-  an established need.
+  an established need. Current dev tooling is listed in `package.json`
+  and locked in `package-lock.json`.
 - Set `use.baseURL` from `BASE_URL`; defaulting to the documented demo URL
   is acceptable for local smoke runs, while CI should set it explicitly.
 - Fail early with a clear message if the configured URL is missing or
@@ -173,4 +175,3 @@ architecture.
 | Avoid broad mutable coverage initially | Shared demo data has no known reset or cleanup interface. |
 | No API/DB client in first milestone | No documented test interface or access is available. |
 | No reporting dependency initially | Built-in Playwright reporters suffice until suite needs demonstrate otherwise. |
-
