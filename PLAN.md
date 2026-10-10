@@ -386,6 +386,11 @@ Do not label these checks as proof that an unauthorized server mutation is impos
 
 Define the automation architecture before writing many tests.
 
+Completed 2026-10-10; see [`docs/automation-architecture.md`](docs/automation-architecture.md)
+for the proposed suite layout, configuration, role fixtures, test-data
+boundaries, evidence rules, and reporting approach. This phase defines the
+design only; framework bootstrap is Phase 7.
+
 Recommended structure:
 
 ```text
@@ -1064,7 +1069,7 @@ The project should not be considered complete merely because the tests pass.
 
 ## First-milestone automation
 
-- [ ] Playwright architecture established
+- [x] Playwright architecture designed and documented
 - [ ] Demo role-selection support implemented, if the UI permits reliable selection
 - [ ] Test data strategy implemented
 - [ ] Selected high-risk, observable UI scenarios automated
