@@ -249,6 +249,9 @@ Create:
 
 `docs/risk-register.md`
 
+Completed 2026-10-08; see `docs/risk-register.md`. Estimates and
+conditional future-work items are explicitly marked in the register.
+
 Each risk should contain:
 
 - Risk ID
