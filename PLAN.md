@@ -304,6 +304,9 @@ Create:
 
 `docs/test-scenarios.md`
 
+Completed 2026-10-10; the matrix maps all current risks to one or more
+scenarios and labels first-milestone versus conditional future coverage.
+
 Map each identified risk to one or more scenarios.
 
 Each scenario should contain:
