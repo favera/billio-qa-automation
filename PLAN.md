@@ -353,6 +353,9 @@ Create:
 
 `docs/rbac-matrix.md`
 
+Completed 2026-10-10; see `docs/rbac-matrix.md` for documented
+permissions, observed UI behavior, evidence confidence, and limitations.
+
 Document roles and permissions described in accessible product documentation and behavior observed through the demo role switcher. No source-code or server-side authorization claims are in scope for the first milestone.
 
 For each role/action combination, define:
@@ -1054,9 +1057,9 @@ The project should not be considered complete merely because the tests pass.
 ## QA strategy
 
 - [ ] RBT strategy documented
-- [ ] Risk register completed
-- [ ] Test scenario matrix completed
-- [ ] RBAC matrix completed
+- [x] Risk register completed
+- [x] Test scenario matrix completed
+- [x] RBAC matrix completed
 - [ ] Traceability implemented
 
 ## First-milestone automation
@@ -1134,7 +1137,7 @@ Use this as the default starting sequence; adjust it as environment reconnaissan
 2. [ ] Inspect the demo UI and accessible documentation; enumerate visible roles and workflows.
 3. [ ] Document observed behavior, evidence sources, unknowns, and limitations.
 4. [ ] Create the RBT strategy, risk register, and scenario matrix from verified demo capabilities.
-5. [ ] Create an RBAC/UI behavior matrix that explicitly does not claim server authorization coverage.
+5. [x] Create an RBAC/UI behavior matrix that explicitly does not claim server authorization coverage.
 6. [ ] Bootstrap Playwright + TypeScript and configure `BASE_URL` if UI automation is feasible.
 7. [ ] Define safe, identifiable UI test data and cleanup boundaries.
 8. [ ] Implement the highest-priority observable role/access and business workflow checks.
