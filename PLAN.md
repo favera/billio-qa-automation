@@ -563,6 +563,12 @@ Use only roles actually exposed by the demo and documented by the application.
 
 # 15. Phase 11 — Build the First-Milestone UI Suite
 
+Initial safe, read-only suite implemented and run on 2026-10-11. See
+[`tests/authorization/role-access.spec.ts`](tests/authorization/role-access.spec.ts)
+for RBT-001 role-option/payment-control checks and VEN-001 vendor-control
+checks. Mutating workflows remain deferred under the test-data safety
+rules.
+
 The first automation should not attempt to cover everything.
 
 Build the highest-risk flows first.
@@ -573,12 +579,12 @@ Select only scenarios supported by observed UI and documented expectations. Assi
 
 ### Role selection and access
 
-- [ ] Role switcher exposes the documented roles
-- [ ] Selecting a role applies the expected feature access
+- [x] Role switcher exposes the documented roles
+- [x] Selecting a role applies the expected feature access for the selected read-only scenarios
 
 ### Role-dependent UI behavior
 
-- [ ] Verify a restricted action is unavailable or blocked in the UI for a selected role, if the demo exposes this behavior
+- [x] Verify restricted actions are unavailable or visible by selected role for the selected read-only scenarios
 
 ### Bills
 
@@ -1094,7 +1100,7 @@ The project should not be considered complete merely because the tests pass.
 - [x] Playwright architecture designed and documented
 - [x] Demo role-selection helper implemented; runtime behavior not yet verified
 - [x] Test data strategy documented; fixture/factory implementation deferred until selected scenarios require it
-- [ ] Selected high-risk, observable UI scenarios automated
+- [x] Selected high-risk, observable UI scenarios automated (RBT-001 and VEN-001 subset)
 - [ ] Inaccessible and unverified risks documented as limitations
 
 ## Conditional future work

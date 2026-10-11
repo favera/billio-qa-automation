@@ -6,8 +6,10 @@ Last reviewed: 2026-10-10
 
 This matrix records role permissions described in accessible Billio
 product documentation and role-dependent UI behavior observed in the
-deployed demo during Phase 1 reconnaissance (2026-10-08). It does not
-claim authenticated identity or server-side authorization coverage.
+deployed demo during Phase 1 reconnaissance (2026-10-08), with an
+additional read-only Playwright check of selected affordances on
+2026-10-11. It does not claim authenticated identity or server-side
+authorization coverage.
 
 The demo's “Viewing as” control is a role switcher, not a login. **A
 visible or hidden control is evidence only of UI behavior.** No approval,
@@ -71,6 +73,12 @@ The demo and seed data may change; re-check controls before turning these
 observations into automation expectations. Server-side authorization,
 authenticated identity, persistence, and no-mutation assertions remain
 conditional future work requiring safe documented interfaces.
+
+The initial Playwright suite also checked the “Run now” control for
+Bookkeeper and AP Manager on Bills, and the “New vendor” link for all three
+roles on Vendors; all passed on 2026-10-11. See
+[`tests/authorization/role-access.spec.ts`](../tests/authorization/role-access.spec.ts).
+These results are rendered UI observations, not proof of server controls.
 
 ## Evidence references
 

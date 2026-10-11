@@ -6,8 +6,9 @@ Last reviewed: 2026-10-10
 
 This document defines the architecture for a small, risk-led Playwright
 suite against the deployed Billio demo. The TypeScript/Playwright tooling
-scaffold is now in place; tests, custom fixtures, and CI workflow are not
-implemented yet. The first milestone can assert only browser-visible
+scaffold, typed role fixture, and initial read-only role/access checks are
+in place; mutable workflow coverage and CI are not implemented yet. The
+first milestone can assert only browser-visible
 behavior. In particular, role selection through the demo switcher is not
 authentication and cannot establish server-side authorization, persistence,
 or ledger correctness.
@@ -162,13 +163,11 @@ architecture.
 ## Growth path
 
 1. Bootstrap the minimal TypeScript/Playwright configuration in Phase 7.
-2. Confirm role switcher locators and deterministic role selection before
-   introducing a reusable fixture.
-3. Start with high-value, read-only scenarios such as role options and
-   visible vendor/payment controls, where stable.
-4. Add a mutation scenario only after its data safety, unique naming, and
+2. Extend high-value, read-only role/access scenarios only where visible
+   controls and seed data are stable.
+3. Add a mutation scenario only after its data safety, unique naming, and
    cleanup limits are documented.
-5. Revisit API/server/database layers only if a safe, documented interface
+4. Revisit API/server/database layers only if a safe, documented interface
    and appropriate access become available.
 
 ## Decisions and open constraints

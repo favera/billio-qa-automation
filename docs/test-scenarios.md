@@ -12,10 +12,14 @@ transaction atomicity, cron behavior, concurrency, and idempotency require
 future safe interfaces and are labelled conditional.
 
 “Automation candidate” describes suitability for later automation, not
-existing automation. Where a scenario changes demo data or uploads a
-fixture, it must use a unique, synthetic, identifiable record/file and
-follow the access and test-data boundaries. Do not infer persistence or
-server enforcement from a UI result.
+existing automation. The suite currently covers a read-only subset of
+RBT-001 (role options and Bookkeeper/AP Manager process-due control
+visibility) and VEN-001 (vendor management link visibility for all three
+roles). These checks last passed on 2026-10-11; this is UI evidence only.
+Other scenarios have not been executed. Where a scenario changes demo data
+or uploads a fixture, it must use a unique, synthetic, identifiable
+record/file and follow the access and test-data boundaries. Do not infer
+persistence or server enforcement from a UI result.
 
 ## Scenarios
 
