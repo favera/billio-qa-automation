@@ -534,6 +534,12 @@ Create data through the supported UI in the first milestone. API/server-action c
 
 # 14. Phase 10 — Role Selection Strategy
 
+Completed 2026-10-11: [`fixtures/test.ts`](fixtures/test.ts) provides a
+typed helper for the three documented demo roles. It uses the accessible
+“Viewing as” select and verifies the selected visible option; it does not
+represent authenticated identity or server-side authorization. The helper
+has not yet been exercised in an automated test.
+
 The demo has no login or session process. Implement reusable Playwright setup for selecting a role through the in-page role switcher.
 
 Recommended approach:
@@ -1086,7 +1092,7 @@ The project should not be considered complete merely because the tests pass.
 ## First-milestone automation
 
 - [x] Playwright architecture designed and documented
-- [ ] Demo role-selection support implemented, if the UI permits reliable selection
+- [x] Demo role-selection helper implemented; runtime behavior not yet verified
 - [x] Test data strategy documented; fixture/factory implementation deferred until selected scenarios require it
 - [ ] Selected high-risk, observable UI scenarios automated
 - [ ] Inaccessible and unverified risks documented as limitations

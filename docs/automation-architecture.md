@@ -41,6 +41,8 @@ billio-qa-automation/
 │   └── dashboard/                   # only risk-justified checks
 ├── fixtures/
 │   └── test.ts                      # shared browser context and role helpers
+├── types/
+│   └── demo-role.ts                 # reusable demo role type
 ├── test-data/
 │   └── invoice-fixtures/            # synthetic, non-sensitive files only
 ├── utils/                           # small domain helpers if duplication appears
@@ -100,13 +102,14 @@ implementation. Do not turn every matrix row into an end-to-end test.
 
 ## Fixtures and role selection
 
-Use a small custom Playwright Test fixture only when it removes meaningful
-repetition. It may expose a typed role helper for the three observed demo
-roles: Bookkeeper (Avery Chen), AP Manager (Marcus Rivera), and Controller
-(Priya Shah). The helper should select a role through an accessible,
-user-facing control and verify the selected role label before assertions.
-Each test selects its role explicitly; do not depend on a role left by a
-previous test.
+The reusable `DemoRole` type lives in `types/demo-role.ts`; the initial
+fixture in `fixtures/test.ts` exposes a typed `selectDemoRole` helper for
+the three observed demo roles: Bookkeeper (Avery Chen), AP Manager (Marcus
+Rivera), and Controller (Priya Shah). It targets the
+accessible “Viewing as” combobox, selects by visible option label, and
+checks the selected option label. Each test selects its role explicitly;
+do not depend on a role left by a previous test. Runtime interaction has
+not yet been exercised by an automated test.
 
 Role fixtures describe demo UI state, not users or identities. They must
 not imply authenticated sessions or prove authorization enforcement.

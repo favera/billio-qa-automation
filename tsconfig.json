@@ -10,5 +10,11 @@
     "noEmit": true,
     "types": ["node"]
   },
-  "include": ["playwright.config.ts", "tests/**/*.ts", "fixtures/**/*.ts", "utils/**/*.ts"]
+  "include": [
+    "playwright.config.ts",
+    "tests/**/*.ts",
+    "fixtures/**/*.ts",
+    "types/**/*.ts",
+    "utils/**/*.ts"
+  ]
 }
