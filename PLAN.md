@@ -495,6 +495,11 @@ Add other variables only when a confirmed demo testing need exists. Do not add c
 
 # 13. Phase 9 — Test Data Strategy
 
+Completed 2026-10-11; see [`docs/test-data-strategy.md`](docs/test-data-strategy.md)
+for data classes, safe selection and naming rules, scenario prerequisites,
+synthetic invoice fixture requirements, and cleanup limitations. No demo
+data was created or changed.
+
 Create a controlled test-data strategy for scenarios reachable through the demo UI.
 
 ## Objectives
@@ -1082,7 +1087,7 @@ The project should not be considered complete merely because the tests pass.
 
 - [x] Playwright architecture designed and documented
 - [ ] Demo role-selection support implemented, if the UI permits reliable selection
-- [ ] Test data strategy implemented
+- [x] Test data strategy documented; fixture/factory implementation deferred until selected scenarios require it
 - [ ] Selected high-risk, observable UI scenarios automated
 - [ ] Inaccessible and unverified risks documented as limitations
 

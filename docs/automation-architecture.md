@@ -29,6 +29,7 @@ billio-qa-automation/
 │   ├── risk-register.md
 │   ├── test-scenarios.md
 │   ├── rbac-matrix.md
+│   ├── test-data-strategy.md
 │   └── traceability-matrix.md       # add when traceability is implemented
 ├── tests/
 │   ├── authorization/               # role-dependent UI affordances
