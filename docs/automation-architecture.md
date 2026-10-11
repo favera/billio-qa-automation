@@ -60,11 +60,13 @@ Billio application separate from this QA repository.
 - Use TypeScript, Playwright Test, and Node.js; add dependencies only for
   an established need. Current dev tooling is listed in `package.json`
   and locked in `package-lock.json`.
-- Set `use.baseURL` from `BASE_URL`; defaulting to the documented demo URL
-  is acceptable for local smoke runs, while CI should set it explicitly.
-- Fail early with a clear message if the configured URL is missing or
-  malformed. Do not configure credentials, `storageState`, database
-  connections, private endpoints, or secrets for the current scope.
+- Load optional local overrides from ignored `.env.local` using dotenv.
+  `.env.example` documents the sole first-milestone variable, `BASE_URL`.
+- Set `use.baseURL` from `BASE_URL`; when unset, use the documented demo
+  URL. Validate that overrides use HTTP or HTTPS. CI should set
+  `BASE_URL` explicitly.
+- Do not configure credentials, `storageState`, database connections,
+  private endpoints, or secrets for the current scope.
 - Use a desktop browser project initially. Add browsers only when a
   defined risk or supported-user requirement justifies the cost.
 - Run read-only checks in parallel only after confirming page isolation.

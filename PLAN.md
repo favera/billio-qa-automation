@@ -458,6 +458,11 @@ Do not add dependencies unless they solve a demonstrated problem.
 
 # 12. Phase 8 — Environment Configuration
 
+Completed 2026-10-10: `.env.example` documents `BASE_URL`, `.env.local` is
+ignored by git, and Playwright loads the local override with the documented
+Billio demo URL as a fallback. No credentials or database variables are
+configured.
+
 Create environment-specific configuration.
 
 Example:

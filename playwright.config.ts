@@ -1,6 +1,14 @@
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
 
-const baseURL = process.env.BASE_URL ?? 'https://billio-psi.vercel.app';
+dotenv.config({ path: '.env.local' });
+
+const baseURL = process.env.BASE_URL?.trim() || 'https://billio-psi.vercel.app';
+const parsedBaseURL = new URL(baseURL);
+
+if (!['http:', 'https:'].includes(parsedBaseURL.protocol)) {
+  throw new Error('BASE_URL must use the http or https protocol.');
+}
 
 export default defineConfig({
   testDir: './tests',
