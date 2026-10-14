@@ -74,9 +74,9 @@ observations into automation expectations. Server-side authorization,
 authenticated identity, persistence, and no-mutation assertions remain
 conditional future work requiring safe documented interfaces.
 
-The initial Playwright suite also checked the “Run now” control for
-Bookkeeper and AP Manager on Bills, and the “New vendor” link for all three
-roles on Vendors; all passed on 2026-10-11. See
+The Playwright suite checks the “Run now” control for Bookkeeper and
+AP Manager on Bills, and the “New vendor” link for all three roles on
+Vendors; these checks passed again on 2026-10-14. See
 [`tests/authorization/role-access.spec.ts`](../tests/authorization/role-access.spec.ts).
 These results are rendered UI observations, not proof of server controls.
 

@@ -144,13 +144,16 @@ interface outside the first milestone.
   Approved → Scheduled → Paid, rejection back to Draft, activity entries,
   and stale revision checks. Live list/detail confirmed some states and
   activity display.
-- **Proposed test coverage:** Observe supported transitions through safe
-  UI flows; assess invalid/repeated and stale transitions only when a
-  controlled interface is available.
-- **Automation strategy:** First milestone: selected observable UI
-  transitions using unique records. Future: concurrent/stale server tests.
-- **Status:** Open — UI state sample observed; transitions and revision
-  guards unverified.
+- **Proposed test coverage:** First milestone includes a read-only
+  snapshot of seeded bill state/activity. Observe an actual transition
+  only through a safe, uniquely controlled UI workflow; assess stale and
+  repeated transitions only with a controlled interface.
+- **Automation strategy:** First milestone: assert displayed status,
+  awaiting role, and seed activity for STATE-001. Future: positive
+  transition workflows when test data is isolated; concurrent/stale
+  server tests remain conditional.
+- **Status:** Open — seeded pending state and displayed activity observed;
+  actual transitions, persistence, and revision guards unverified.
 
 ### RISK-006 — Incorrect bill total or financial calculation
 

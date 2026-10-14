@@ -16,7 +16,7 @@ test.describe('role-dependent UI behavior', () => {
     await expect(roleSwitcher.locator('option')).toHaveText(roleOptionLabels);
   });
 
-  test('[RBT-001] shows process-due control to AP Manager only', async ({
+  test('[RBT-001] shows process-due control to AP Manager, not Bookkeeper', async ({
     page,
     selectDemoRole,
   }) => {

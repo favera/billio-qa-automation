@@ -14,12 +14,14 @@ future safe interfaces and are labelled conditional.
 “Automation candidate” describes suitability for later automation, not
 existing automation. The suite currently covers a read-only subset of
 RBT-001 (role options and Bookkeeper/AP Manager process-due control
-visibility) and VEN-001 (vendor management link visibility for all three
-roles). These checks last passed on 2026-10-11; this is UI evidence only.
-Other scenarios have not been executed. Where a scenario changes demo data
-or uploads a fixture, it must use a unique, synthetic, identifiable
-record/file and follow the access and test-data boundaries. Do not infer
-persistence or server enforcement from a UI result.
+visibility), VEN-001 (vendor management link visibility for all three
+roles), and STATE-001 (seeded pending state and activity display). All
+four current UI tests last passed on 2026-10-14; this is UI evidence only.
+Other scenarios and all lifecycle mutations have not been executed. Where
+a scenario changes demo data or uploads a fixture, it must use a unique,
+synthetic, identifiable record/file and follow the access and test-data
+boundaries. Do not infer persistence or server enforcement from a UI
+result.
 
 ## Scenarios
 
@@ -173,6 +175,27 @@ persistence or server enforcement from a UI result.
   actors; dedicated test data.
 - **Dependencies:** Safe server test interface and reliable state
   observation.
+
+### STATE-001 — Seeded pending approval state and activity snapshot
+
+- **Risk ID:** RISK-005.
+- **Feature:** Bill lifecycle display and activity history.
+- **Scenario:** Open seeded bill ACME-10501 as Bookkeeper and inspect its
+  current status, awaiting role, and visible creation/submission events.
+- **Preconditions:** ACME-10501 remains a seeded Pending approval bill
+  awaiting AP Manager, with Created and Submitted for approval entries.
+  This state was rechecked read-only on 2026-10-14.
+- **Expected result:** The detail displays Pending approval, says it
+  awaits AP Manager approval, and shows the Created bill and Submitted
+  for approval events. This observes a current state only; it does not
+  validate transition correctness or persisted history.
+- **Test type:** State snapshot / activity display; read-only.
+- **Test layer:** UI.
+- **Priority:** P1.
+- **Automation candidate:** Yes while the stable seed remains in this
+  state; stop or revise the check if its seed precondition changes.
+- **Data requirements:** Existing seeded bill ACME-10501; no mutation.
+- **Dependencies:** Demo availability, stable seed details, role switcher.
 
 ### FIN-001 — Bill total matches entered line amounts
 
@@ -514,7 +537,7 @@ persistence or server enforcement from a UI result.
 | RISK-002 | VEN-001 |
 | RISK-003 | AUTH-001 |
 | RISK-004 | BILL-001 |
-| RISK-005 | BILL-002, BILL-003, BILL-004 |
+| RISK-005 | BILL-002, BILL-003, BILL-004, STATE-001 |
 | RISK-006 | FIN-001 |
 | RISK-007 | GL-001 |
 | RISK-008 | PAY-001, PAY-002 |
@@ -532,7 +555,7 @@ persistence or server enforcement from a UI result.
 ## First-milestone candidates
 
 The following scenarios have a plausible read-only UI automation path:
-RBT-001, VEN-001, GL-001, AUD-001, REC-001, and DASH-001 when the
+RBT-001, VEN-001, STATE-001, GL-001, AUD-001, REC-001, and DASH-001 when the
 relevant records and dates are stable. BILL-001–003, FIN-001, PAY-002,
 PAY-003, PAY-004, and INV-001–002 can change shared demo data or transmit
 files; treat them as conditional until safe unique test data and

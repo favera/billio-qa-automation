@@ -703,6 +703,13 @@ Do not make UI tests dependent on direct database access. Direct DB validation r
 
 # 18. Phase 14 — State Machine Testing
 
+Completed 2026-10-14 for lifecycle modeling and safe state observation;
+see [`docs/bill-lifecycle-state-machine.md`](docs/bill-lifecycle-state-machine.md).
+The read-only `STATE-001` snapshot checks a current seeded Pending approval
+bill and passed on 2026-10-14. No lifecycle mutation, stale action, or
+payment transition was run; those remain conditional under the test-data
+strategy.
+
 Represent only bill lifecycle states and transitions established by accessible documentation or observed UI behavior. Mark other transitions as unknown.
 
 Expected valid transitions:
@@ -713,10 +720,8 @@ DRAFT
 PENDING_APPROVAL
   ↓
 APPROVED
-  ↓
-SCHEDULED
-  ↓
-PAID
+  ├─ Schedule → SCHEDULED → Process due → PAID
+  └─ Pay now → PAID
 ```
 
 Rejected bills:

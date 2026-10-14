@@ -33,6 +33,7 @@ billio-qa-automation/
 │   ├── test-data-strategy.md
 │   ├── api-server-test-strategy.md
 │   ├── database-validation-strategy.md
+│   ├── bill-lifecycle-state-machine.md
 │   └── traceability-matrix.md       # add when traceability is implemented
 ├── tests/
 │   ├── authorization/               # role-dependent UI affordances
