@@ -656,6 +656,13 @@ This layer should provide faster feedback than full browser tests.
 
 # 17. Phase 13 — Database Validation
 
+Completed 2026-10-14 as an access assessment and conditional validation
+design; see
+[`docs/database-validation-strategy.md`](docs/database-validation-strategy.md).
+Database access and schema remain unavailable, so no connection or DB
+tests were added. Revisit execution only after the documented access gate
+is met.
+
 Database validation is conditional future work requiring safe database access. In the first milestone, record observable UI state, action feedback, and activity/history where available. Treat these as UI evidence, not proof of database integrity.
 
 Examples:

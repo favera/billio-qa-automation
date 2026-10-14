@@ -32,6 +32,7 @@ billio-qa-automation/
 │   ├── rbac-matrix.md
 │   ├── test-data-strategy.md
 │   ├── api-server-test-strategy.md
+│   ├── database-validation-strategy.md
 │   └── traceability-matrix.md       # add when traceability is implemented
 ├── tests/
 │   ├── authorization/               # role-dependent UI affordances

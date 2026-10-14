@@ -477,6 +477,7 @@ persistence or server enforcement from a UI result.
 - **Priority:** P1.
 - **Automation candidate:** No in current milestone; conditional only
   after safe database/test access is granted.
+- **Validation design:** See [database validation strategy](database-validation-strategy.md).
 - **Data requirements:** Isolated bill/payment records and authoritative
   database snapshots.
 - **Dependencies:** Documented interfaces, safe DB access, transaction

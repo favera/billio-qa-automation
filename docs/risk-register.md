@@ -443,7 +443,8 @@ interface outside the first milestone.
   posted to a ledger; docs state there is no persisted global ledger.
 - **Proposed test coverage:** Treat visible confirmation as UI evidence
   only. Validate persisted bills, lines, PaymentRuns, activity, and
-  transaction rollback only if safe read/test access is granted.
+  transaction rollback only if safe read/test access is granted; see the
+  [database validation strategy](database-validation-strategy.md).
 - **Automation strategy:** Conditional API/integration/database tests;
   no direct DB access or interface is currently available.
 - **Status:** Open — conditional; persistence unverified.
