@@ -31,6 +31,7 @@ billio-qa-automation/
 │   ├── test-scenarios.md
 │   ├── rbac-matrix.md
 │   ├── test-data-strategy.md
+│   ├── api-server-test-strategy.md
 │   └── traceability-matrix.md       # add when traceability is implemented
 ├── tests/
 │   ├── authorization/               # role-dependent UI affordances
@@ -109,8 +110,8 @@ the three observed demo roles: Bookkeeper (Avery Chen), AP Manager (Marcus
 Rivera), and Controller (Priya Shah). It targets the
 accessible “Viewing as” combobox, selects by visible option label, and
 checks the selected option label. Each test selects its role explicitly;
-do not depend on a role left by a previous test. Runtime interaction has
-not yet been exercised by an automated test.
+do not depend on a role left by a previous test. This interaction passed
+in the read-only Phase 11 suite.
 
 Role fixtures describe demo UI state, not users or identities. They must
 not imply authenticated sessions or prove authorization enforcement.

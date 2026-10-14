@@ -538,7 +538,7 @@ Completed 2026-10-11: [`fixtures/test.ts`](fixtures/test.ts) provides a
 typed helper for the three documented demo roles. It uses the accessible
 “Viewing as” select and verifies the selected visible option; it does not
 represent authenticated identity or server-side authorization. The helper
-has not yet been exercised in an automated test.
+was exercised by the passing read-only Phase 11 suite.
 
 The demo has no login or session process. Implement reusable Playwright setup for selecting a role through the in-page role switcher.
 
@@ -618,6 +618,12 @@ Select only scenarios supported by observed UI and documented expectations. Assi
 ---
 
 # 16. Phase 12 — API / Server-Side Testing
+
+Completed 2026-10-11 as an access assessment and conditional test design;
+see [`docs/api-server-test-strategy.md`](docs/api-server-test-strategy.md).
+No suitable server interface or backend access is available, so no API or
+server tests were implemented. Revisit execution only when the documented
+access gate is met.
 
 Do not force future server-side tests through the browser, but keep API/server testing out of the first milestone because source and backend access are unavailable.
 
