@@ -15,9 +15,10 @@ future safe interfaces and are labelled conditional.
 existing automation. The suite currently covers a read-only subset of
 RBT-001 (role options and Bookkeeper/AP Manager process-due control
 visibility), VEN-001 (vendor management link visibility for all three
-roles), and STATE-001 (seeded pending state and activity display). All
-four current UI tests last passed on 2026-10-14; this is UI evidence only.
-Other scenarios and all lifecycle mutations have not been executed. Where
+roles), STATE-001 (seeded pending state and activity display), and FIN-002
+(unsaved line total around the $5,000 boundary). All five current UI tests
+last passed on 2026-10-20; results are UI evidence only. Other scenarios
+and all lifecycle mutations have not been executed. Where
 a scenario changes demo data or uploads a fixture, it must use a unique,
 synthetic, identifiable record/file and follow the access and test-data
 boundaries. Do not infer persistence or server enforcement from a UI
@@ -218,6 +219,26 @@ result.
 - **Data requirements:** Unique synthetic bill with two or more simple
   positive amounts.
 - **Dependencies:** New-bill UI and stable total display.
+
+### FIN-002 — Unsaved line total across the approval threshold
+
+- **Risk ID:** RISK-006.
+- **Feature:** Financial calculation / threshold-adjacent display.
+- **Scenario:** On a new, unsaved bill, enter `$4,999.99` and `$0.01` in
+  separate lines, then change the second line to `$0.02`.
+- **Preconditions:** New-bill form is available; the Bookkeeper role can
+  open it; amount inputs accept the two decimal values.
+- **Expected result:** The displayed total updates from `$5,000.00` to
+  `$5,000.01`. Do not submit the bill. This checks displayed arithmetic
+  only, not approval routing, rounding rules generally, or persistence.
+- **Test type:** Financial boundary / UI calculation; no mutation.
+- **Test layer:** UI.
+- **Priority:** P1.
+- **Automation candidate:** Yes; both lines remain unsaved and the test
+  does not click Create bill.
+- **Data requirements:** Synthetic values entered into the transient form;
+  no record or invoice file.
+- **Dependencies:** Stable amount labels, Add line button, and total display.
 
 ### GL-001 — Bill line uses an active expense GL account
 
@@ -538,7 +559,7 @@ result.
 | RISK-003 | AUTH-001 |
 | RISK-004 | BILL-001 |
 | RISK-005 | BILL-002, BILL-003, BILL-004, STATE-001 |
-| RISK-006 | FIN-001 |
+| RISK-006 | FIN-001, FIN-002 |
 | RISK-007 | GL-001 |
 | RISK-008 | PAY-001, PAY-002 |
 | RISK-009 | PAY-003 |
@@ -555,7 +576,7 @@ result.
 ## First-milestone candidates
 
 The following scenarios have a plausible read-only UI automation path:
-RBT-001, VEN-001, STATE-001, GL-001, AUD-001, REC-001, and DASH-001 when the
+RBT-001, VEN-001, STATE-001, FIN-002, GL-001, AUD-001, REC-001, and DASH-001 when the
 relevant records and dates are stable. BILL-001–003, FIN-001, PAY-002,
 PAY-003, PAY-004, and INV-001–002 can change shared demo data or transmit
 files; treat them as conditional until safe unique test data and

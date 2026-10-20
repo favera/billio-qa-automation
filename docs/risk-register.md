@@ -172,13 +172,15 @@ interface outside the first milestone.
   detail page displayed a total matching the one visible line in the
   observed sample; this is not boundary or persistence evidence.
 - **Proposed test coverage:** Compare entered line values with displayed
-  totals using documented financial boundaries. Pure calculations and
-  persisted amounts require suitable project-owned code or future access.
-- **Automation strategy:** First milestone: UI checks of displayed totals
-  for safe test data. Future: deterministic unit/server/DB checks for
-  precision and persistence.
-- **Status:** Open — one UI example observed; financial boundaries
-  untested.
+  totals near the documented `$5,000.00` approval threshold. Pure
+  calculations and persisted amounts require suitable project-owned code
+  or future access.
+- **Automation strategy:** First milestone: FIN-002 checks the unsaved UI
+  total at `$5,000.00` and `$5,000.01`. Future: deterministic
+  unit/server/DB checks for precision, validation, and persistence.
+- **Status:** Open — a narrow threshold-adjacent display check is
+  automated; rounding, caps, validation, routing, and persistence remain
+  unverified. FIN-002 passed against the deployed demo on 2026-10-20.
 
 ### RISK-007 — Incorrect or inactive GL coding
 

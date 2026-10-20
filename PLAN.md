@@ -748,6 +748,14 @@ This should become one of the strongest parts of the automation framework.
 
 # 19. Phase 15 — Financial Boundary Testing
 
+Initial safe coverage completed and passed on 2026-10-20 for one unsaved
+UI calculation boundary;
+see [FIN-002](docs/test-scenarios.md#fin-002--unsaved-line-total-across-the-approval-threshold)
+and `tests/bills/financial-boundaries.spec.ts`. Approval routing, submitted
+bills, zero/negative/maximum and rounding validation, and persisted
+financial outcomes remain conditional because they require more evidence,
+access, or shared-data mutations.
+
 Prioritize boundary values.
 
 Approval threshold examples:
