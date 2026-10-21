@@ -874,7 +874,9 @@ Use date/time utilities carefully and avoid tests that depend on the real curren
 
 # 23. Phase 19 — Cron Testing
 
-Test the shared process-due functionality.
+Test process-due only with test-created due bills and only after
+confirming the UI action cannot process unrelated shared-demo bills.
+Server cron behavior remains conditional on a safe documented interface.
 
 Scenarios:
 
@@ -1136,6 +1138,7 @@ The project should not be considered complete merely because the tests pass.
 - [x] Demo role-selection helper implemented; runtime behavior not yet verified
 - [x] Test data strategy documented; fixture/factory implementation deferred until selected scenarios require it
 - [x] Selected high-risk, observable UI scenarios automated (RBT-001 and VEN-001 subset)
+- [ ] Add reviewed synthetic vendor/bill and payment workflow scenarios (VEN-002, BILL-001/002/005, PAY-002/004); no mutations have run yet
 - [ ] Inaccessible and unverified risks documented as limitations
 
 ## Conditional future work
@@ -1207,7 +1210,7 @@ Use this as the default starting sequence; adjust it as environment reconnaissan
 4. [ ] Create the RBT strategy, risk register, and scenario matrix from verified demo capabilities.
 5. [x] Create an RBAC/UI behavior matrix that explicitly does not claim server authorization coverage.
 6. [ ] Bootstrap Playwright + TypeScript and configure `BASE_URL` if UI automation is feasible.
-7. [ ] Define unique synthetic vendor/bill/payment data; document retained records and scoped payment execution.
+7. [x] Define unique synthetic vendor/bill/payment data; document retained records and scoped payment execution.
 8. [ ] Implement the highest-priority observable role/access and business workflow checks.
 9. [ ] Add CI and reporting only after the demo suite is reliable and safe to run.
 10. [ ] Build traceability and report coverage separately for automated checks, manual observations, and unverified risks.

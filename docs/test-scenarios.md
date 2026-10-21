@@ -7,7 +7,8 @@ Last reviewed: 2026-10-21
 This matrix maps every current risk in the [risk register](risk-register.md)
 to at least one scenario. It defines intended checks and marks implemented
 coverage separately. The first-milestone layer is limited to visible
-demo behavior. Server authorization, persisted financial effects,
+demo behavior, including approved mutations on synthetic test records.
+Server authorization, persisted financial effects,
 transaction atomicity, cron behavior, concurrency, and idempotency require
 future safe interfaces and are labelled conditional.
 

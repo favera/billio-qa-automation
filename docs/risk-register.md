@@ -74,8 +74,8 @@ interface outside the first milestone.
   displayed values. Server-side authorization and persistence remain
   unverified.
 - **Automation strategy:** First milestone: role-based directory checks
-  and a Controller UI create flow using fabricated data. Edit/archive and
-  unauthorized server mutation checks remain outside this approval.
+  and a Controller UI create flow using fabricated data. Edit/archive
+  checks and unauthorized server mutation assertions are out of scope.
 - **Status:** Open — UI evidence only; mutation enforcement unverified.
 
 ### RISK-003 — Separation-of-duties failure
@@ -120,9 +120,9 @@ interface outside the first milestone.
   Controller. Docs say the selected role is stored at submission. No
   threshold bill was submitted during reconnaissance.
 - **Proposed test coverage:** FIN-002 checks the unsaved displayed total
-  around `$5,000.00`. BILL-001 would submit bills and confirm visible
-  awaiting-role routing; that transition remains separately conditional.
-  Server rule and persisted routing checks are future coverage.
+  around `$5,000.00`; BILL-001 submits uniquely identified test bills
+  and confirms visible awaiting-role routing. Server rule and persisted
+  routing checks are future coverage.
 - **Automation strategy:** Submit uniquely identified test bills through
   the UI and inspect visible awaiting-role routing. Server rule and
   persisted-state checks remain conditional.
@@ -148,9 +148,10 @@ interface outside the first milestone.
   and stale revision checks. Live list/detail confirmed some states and
   activity display.
 - **Proposed test coverage:** BILL-005 creates a uniquely identified
-  synthetic Draft and inspects its visible status; STATE-001 remains a
-  read-only snapshot of seeded state/activity. Submission, approval,
-  rejection, stale, and repeated transitions remain conditional.
+  synthetic Draft and inspects its visible status; BILL-002/003 exercise
+  submission/approval and rejection on dedicated test bills. STATE-001
+  remains a read-only snapshot of seeded state/activity. Stale and
+  repeated transitions remain conditional.
 - **Automation strategy:** First milestone may create, submit, approve,
   and reject uniquely labeled test bills through the UI. These records
   may remain in the shared demo. Concurrent/stale server tests remain

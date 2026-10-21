@@ -542,8 +542,10 @@ synchronization.
 
 ## 19. Payment Testing
 
-Payment behavior is high risk. First-milestone checks may cover only
-payment behavior exposed through the demo UI.
+Payment behavior is high risk. The developer approved executing
+payment-workflow scenarios on uniquely identified test-created bills
+through supported demo UI flows. Keep execution serial and inspect the
+visible bill, amount, vendor, status, and run details.
 
 Where the demo exposes these details, observe UI-visible behavior only:
 
@@ -557,8 +559,10 @@ Where the demo exposes these details, observe UI-visible behavior only:
 -   Repeated execution is safe.
 
 Do not describe a disabled button or UI message as proof of duplicate
-payment prevention. Proving idempotency requires an appropriate
-server/integration/database test, which is conditional future work.
+payment prevention. Repeated payment actions remain conditional unless a
+potential duplicate effect can be contained. Proving idempotency requires
+an appropriate server/integration/database test, which is conditional
+future work.
 
 ------------------------------------------------------------------------
 
@@ -576,8 +580,10 @@ first-milestone requirements:
 -   Uses `SYSTEM_USER_ID`
 -   Shares core processing logic with manual "Run now"
 
-Cron checks are conditional future work. If a safe test interface becomes
-available, scenarios may distinguish:
+Server cron checks remain conditional future work. UI process-due may be
+used for a test-created due bill only after confirming the action cannot
+process unrelated bills. If a safe test interface becomes available,
+scenarios may distinguish:
 
 -   Due payment
 -   Future payment
@@ -939,8 +945,11 @@ Follow existing repository conventions.
 
 ### Step 6 --- Execute
 
-Run the smallest relevant suite first when a runnable suite exists. Do
-not perform demo actions that could create broad or irreversible changes.
+Run the smallest relevant suite first when a runnable suite exists.
+Approved vendor/bill creation and payment workflows may be exercised on
+uniquely identified test records through the supported UI. Do not perform
+global actions that may affect unrelated records, or broad/destructive
+cleanup.
 
 Then run broader coverage if necessary.
 

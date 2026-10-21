@@ -23,8 +23,11 @@ surface and suitable access. Before adding a server test, establish all
 of the following:
 
 1. **Authorized environment:** identify a dedicated test/staging target
-   and explicit permission to exercise its mutations. Do not run financial
-   mutation tests against production or the shared demo.
+   and explicit permission to exercise its mutations. The developer has
+   approved supported-UI vendor/bill/payment workflows in the demo; this
+   does not authorize undocumented API/server mutations. Do not run
+   financial mutation tests through an undocumented server interface or
+   against a production database.
 2. **Actual interface:** confirm whether behavior is exposed through a
    documented HTTP API, Server Action, or another supported test surface.
    Obtain its schema, authentication model, and versioning/error contract.
