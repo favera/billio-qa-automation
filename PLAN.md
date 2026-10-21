@@ -497,8 +497,13 @@ Add other variables only when a confirmed demo testing need exists. Do not add c
 
 Completed 2026-10-11; see [`docs/test-data-strategy.md`](docs/test-data-strategy.md)
 for data classes, safe selection and naming rules, scenario prerequisites,
-synthetic invoice fixture requirements, and cleanup limitations. No demo
-data was created or changed.
+synthetic invoice fixture requirements, and cleanup limitations. Update
+2026-10-21: the developer approved creating uniquely identified synthetic
+vendors and bills and executing payment workflows through the supported
+UI. Submit/approve/schedule/pay flows may use test-created records;
+vendor/bill/payment records may remain in the shared demo. Global
+process-due remains conditional until its eligible set can be scoped to
+test data. See the updated scenario matrix and test-data strategy.
 
 Create a controlled test-data strategy for scenarios reachable through the demo UI.
 
@@ -528,7 +533,7 @@ test-vendor-{runId}
 test-bill-{runId}
 ```
 
-Create data through the supported UI in the first milestone. API/server-action creation and direct cleanup are conditional future work. Use unique identifiers where supported and avoid broad cleanup.
+Create synthetic vendor and bill data through supported UI flows in the first milestone. Use unique identifiers and serial execution; assume records remain. API/server-action creation and direct cleanup are conditional future work. Never perform broad cleanup or use seeded records as mutation setup.
 
 ---
 
@@ -706,9 +711,11 @@ Do not make UI tests dependent on direct database access. Direct DB validation r
 Completed 2026-10-14 for lifecycle modeling and safe state observation;
 see [`docs/bill-lifecycle-state-machine.md`](docs/bill-lifecycle-state-machine.md).
 The read-only `STATE-001` snapshot checks a current seeded Pending approval
-bill and passed on 2026-10-14. No lifecycle mutation, stale action, or
-payment transition was run; those remain conditional under the test-data
-strategy.
+bill and passed on 2026-10-14. Synthetic bill submission, approval,
+rejection, scheduling, and Pay now are approved for uniquely identified
+test records and risk-justified scenarios. Process-due remains conditional
+unless it can be scoped to test bills. Stale/concurrent transitions and
+authoritative persistence checks remain conditional.
 
 Represent only bill lifecycle states and transitions established by accessible documentation or observed UI behavior. Mark other transitions as unknown.
 
@@ -748,13 +755,15 @@ This should become one of the strongest parts of the automation framework.
 
 # 19. Phase 15 — Financial Boundary Testing
 
-Initial safe coverage completed and passed on 2026-10-20 for one unsaved
+Initial coverage completed and passed on 2026-10-20 for one unsaved
 UI calculation boundary;
 see [FIN-002](docs/test-scenarios.md#fin-002--unsaved-line-total-across-the-approval-threshold)
 and `tests/bills/financial-boundaries.spec.ts`. Approval routing, submitted
-bills, zero/negative/maximum and rounding validation, and persisted
-financial outcomes remain conditional because they require more evidence,
-access, or shared-data mutations.
+bills, and Pay Now/scheduling journeys are approved for uniquely identified
+synthetic records and are candidate scenarios, but are not implemented.
+Zero/negative/maximum and rounding validation, global process-due, and
+persisted financial outcomes remain conditional on safe scope or deeper
+access.
 
 Prioritize boundary values.
 
@@ -1198,7 +1207,7 @@ Use this as the default starting sequence; adjust it as environment reconnaissan
 4. [ ] Create the RBT strategy, risk register, and scenario matrix from verified demo capabilities.
 5. [x] Create an RBAC/UI behavior matrix that explicitly does not claim server authorization coverage.
 6. [ ] Bootstrap Playwright + TypeScript and configure `BASE_URL` if UI automation is feasible.
-7. [ ] Define safe, identifiable UI test data and cleanup boundaries.
+7. [ ] Define unique synthetic vendor/bill/payment data; document retained records and scoped payment execution.
 8. [ ] Implement the highest-priority observable role/access and business workflow checks.
 9. [ ] Add CI and reporting only after the demo suite is reliable and safe to run.
 10. [ ] Build traceability and report coverage separately for automated checks, manual observations, and unverified risks.

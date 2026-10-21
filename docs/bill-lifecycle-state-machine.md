@@ -1,6 +1,6 @@
 # Bill Lifecycle State Machine
 
-Last reviewed: 2026-10-14
+Last reviewed: 2026-10-21
 
 ## Scope and evidence
 
@@ -33,12 +33,12 @@ path and has not been independently exercised.
 
 | Current state | Action | Next state / visible result | Role or data rule | Evidence and status |
 |---|---|---|---|---|
-| Draft | Submit | Pending approval; awaiting role displayed | Bill capture roles may submit; routing follows the selected approval threshold | Product docs and demo overview. No submission transition executed in this project. |
-| Pending approval | Approve | Approved | AP Manager may decide an AP Manager queue; Controller may decide either queue; creator may not decide own bill | Product docs and RBAC matrix. No approval executed. |
-| Pending approval | Reject with a reason | Draft with “Needs revision”; rejection appears as activity | Eligible reviewer; non-empty reason required | Product docs and demo overview. No rejection executed. |
-| Approved | Schedule payment | Scheduled | AP Manager or Controller; supported method/date required | Product docs and demo overview. No scheduling executed. |
-| Approved | Pay now | Paid | AP Manager or Controller | Product docs and demo overview. No payment executed. |
-| Scheduled and due | Process due | Paid | AP Manager or Controller can initiate the UI action; scheduled job is documented at 13:00 UTC | Product docs and demo overview. Neither UI run nor cron executed. |
+| Draft | Submit | Pending approval; awaiting role displayed | Bill capture roles may submit; routing follows the selected approval threshold | Product docs and demo overview. Synthetic test-bill submission is approved; not yet executed in this project. |
+| Pending approval | Approve | Approved | AP Manager may decide an AP Manager queue; Controller may decide either queue; creator may not decide own bill | Product docs and RBAC matrix. Approval of test-created bills for payment scenarios is approved; not yet executed. |
+| Pending approval | Reject with a reason | Draft with “Needs revision”; rejection appears as activity | Eligible reviewer; non-empty reason required | Product docs and demo overview. Rejection of a uniquely identified test bill may be used in BILL-003; not yet executed. |
+| Approved | Schedule payment | Scheduled | AP Manager or Controller; supported method/date required | Product docs and demo overview. Scheduling a test-created bill is approved; not yet executed. |
+| Approved | Pay now | Paid | AP Manager or Controller | Product docs and demo overview. Pay now on a test-created bill is approved; not yet executed. |
+| Scheduled and due | Process due | Paid | AP Manager or Controller can initiate the UI action; scheduled job is documented at 13:00 UTC | Product docs and demo overview. Scoped processing of a test bill is approved; global effect must be checked before execution. Cron not executed. |
 
 ## Unknown or conditional transitions
 
@@ -71,8 +71,9 @@ that state on 2026-10-14, and the check passed that day. This is a
 state-display check, not evidence that
 the transition was correctly persisted or that activity is complete.
 
-The actual transition scenarios remain conditional under the
-[test-data strategy](test-data-strategy.md): creating, submitting,
-approving, rejecting, scheduling, or paying bills can change shared demo
-state, and no safe cleanup path is established.
+Creation of uniquely identified test vendors and bills, bill submission
+and approval needed for a payment scenario, scheduling, and Pay now are
+approved through the supported UI. Synthetic records may remain in the
+shared demo. Process-due remains conditional unless its eligible bills can
+be scoped to test data; no safe cleanup path is assumed.
 

@@ -461,12 +461,16 @@ and should be:
 -   Readable
 -   Reusable where safe
 -   Unique where mutation occurs
--   Easy to clean up
+-   Clearly identifiable if it must remain in the shared demo
 
 Do not assume test accounts, API setup, database cleanup, or server
-fixtures are available. Prefer UI-created records with unique run
-identifiers where supported. API factories/builders are conditional
-future work.
+fixtures are available. The developer has approved creating unique
+synthetic vendors and bills and executing payment workflows through the
+supported demo UI. Use scenario-owned records, serial execution, and
+explicitly document that created records may remain. Do not modify seeded
+records for setup or perform broad cleanup. Keep global process-due actions
+conditional unless their eligible set is scoped to test records. API
+factories/builders remain conditional future work.
 
 Examples:
 

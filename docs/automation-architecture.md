@@ -1,6 +1,6 @@
 # Billio UI Automation Architecture
 
-Last reviewed: 2026-10-10
+Last reviewed: 2026-10-21
 
 ## Purpose and boundary
 
@@ -8,7 +8,9 @@ This document defines the architecture for a small, risk-led Playwright
 suite against the deployed Billio demo. The TypeScript/Playwright tooling
 scaffold, typed role fixture, and initial read-only role/access checks are
 in place; mutable workflow coverage and CI are not implemented yet. The
-first milestone can assert only browser-visible
+developer has approved unique synthetic vendor/bill creation and
+payment-workflow execution through supported UI flows. The first
+milestone can assert only browser-visible
 behavior. In particular, role selection through the demo switcher is not
 authentication and cannot establish server-side authorization, persistence,
 or ledger correctness.
@@ -77,9 +79,9 @@ Billio application separate from this QA repository.
 - Use a desktop browser project initially. Add browsers only when a
   defined risk or supported-user requirement justifies the cost.
 - Run read-only checks in parallel only after confirming page isolation.
-  Keep shared-demo mutations serial (`workers: 1`) or opt-in until unique
-  test records and safe cleanup are demonstrated. A worker limit does not
-  isolate shared application data.
+  Keep shared-demo mutations serial (`workers: 1`). Use unique synthetic
+  vendors/bills and allow them to remain; a worker limit does not isolate
+  shared application data. Do not mutate seeded records for setup.
 - Use bounded test and assertion timeouts based on the deployed demo's
   observed response behavior. Synchronize on locator assertions and
   meaningful navigation/network conditions; never arbitrary sleeps.
@@ -99,10 +101,11 @@ Risk ID → Scenario ID → spec/test → browser-visible result → report
 ```
 
 Only scenarios marked as first-milestone UI checks and suitable for
-repeatable, non-harmful execution should become automated. Scenario
-automation candidates marked conditional (for example, bill approval,
-rejection, or payment) require a reviewed safe-data approach before
-implementation. Do not turn every matrix row into an end-to-end test.
+repeatable execution should become automated. Vendor/bill creation,
+submission/approval for test-created bills, scheduling, and Pay now are
+approved mutations; implement only risk-justified flows with unique data.
+Process-due remains conditional unless its eligible set can be scoped to
+test bills. Do not turn every matrix row into an end-to-end test.
 
 ## Fixtures and role selection
 
@@ -124,16 +127,17 @@ deep CSS selectors, and private application APIs.
 ## Test data and side effects
 
 Read-only checks should prefer seeded records only when their identity and
-state are stable enough for the assertion. Any test that creates or
-changes records must use the supported UI, synthetic values, and a unique
-run identifier where the UI allows it. Do not assume deletion or cleanup
-is available; avoid broad cleanup and avoid mutating shared seeded bills.
-Upload only synthetic, non-sensitive invoice fixtures. Never put real
-financial documents or personal data in the repository.
+state are stable enough for the assertion. Mutation tests may create
+synthetic vendors/bills through the supported UI using unique run
+identifiers. Submit, approve, schedule, or pay only records created for
+that scenario. Synthetic records may remain; do not assume deletion or
+cleanup, perform broad cleanup, or mutate seeded bills. Process-due is
+conditional unless scoped to test records. Use no real financial data or
+personal information.
 
-If an action changes shared demo state and cannot be isolated or safely
-cleaned, keep it as a manual scenario or defer it. A successful UI message
-does not establish that the change persisted correctly.
+If a global action may affect unrelated shared-demo state, keep it manual
+or defer it until its impact can be scoped. A successful UI message does
+not establish that the change persisted correctly.
 
 ## Assertions and evidence
 
@@ -168,8 +172,8 @@ architecture.
 1. Bootstrap the minimal TypeScript/Playwright configuration in Phase 7.
 2. Extend high-value, read-only role/access scenarios only where visible
    controls and seed data are stable.
-3. Add a mutation scenario only after its data safety, unique naming, and
-   cleanup limits are documented.
+3. Add approved mutation scenarios with unique naming, serial execution,
+   and explicit retained-record expectations documented.
 4. Revisit API/server/database layers only if a safe, documented interface
    and appropriate access become available.
 
@@ -180,6 +184,6 @@ architecture.
 | Playwright Test + TypeScript | Matches the roadmap and supports browser UI checks with typed helpers. |
 | Demo URL as sole target | Current access is limited to deployed demo and public docs. |
 | Explicit role selection per test | Prevents hidden dependence on prior UI state; role switcher is not authentication. |
-| Avoid broad mutable coverage initially | Shared demo data has no known reset or cleanup interface. |
+| Use unique synthetic records for approved mutations | Shared demo data has no known reset or cleanup interface. |
 | No API/DB client in first milestone | No documented test interface or access is available. |
 | No reporting dependency initially | Built-in Playwright reporters suffice until suite needs demonstrate otherwise. |

@@ -1,6 +1,6 @@
 # Billio Risk Register
 
-Last reviewed: 2026-10-08
+Last reviewed: 2026-10-21
 
 ## Scope and scoring notes
 
@@ -69,11 +69,13 @@ interface outside the first milestone.
 - **Existing mitigation:** Product docs describe Controller-owned vendor
   mutations and server role checks. Live UI showed no New vendor link for
   Avery and a New vendor link for Priya; no mutation was attempted.
-- **Proposed test coverage:** Verify visible management controls by role;
-  if later access permits, verify unauthorized mutation rejection and
-  unchanged vendor state.
-- **Automation strategy:** First milestone: role-based directory UI
-  checks. Future server/data validation is conditional.
+- **Proposed test coverage:** VEN-001 checks visible management controls;
+  VEN-002 creates a uniquely identified synthetic vendor and inspects its
+  displayed values. Server-side authorization and persistence remain
+  unverified.
+- **Automation strategy:** First milestone: role-based directory checks
+  and a Controller UI create flow using fabricated data. Edit/archive and
+  unauthorized server mutation checks remain outside this approval.
 - **Status:** Open — UI evidence only; mutation enforcement unverified.
 
 ### RISK-003 — Separation-of-duties failure
@@ -117,12 +119,13 @@ interface outside the first milestone.
   bills routed to AP Manager and bills of `$5,000.00+` routed to
   Controller. Docs say the selected role is stored at submission. No
   threshold bill was submitted during reconnaissance.
-- **Proposed test coverage:** UI boundary checks around `$5,000.00` and
-  visible awaiting-role confirmation. Server rule and persisted routing
-  checks are conditional future coverage.
-- **Automation strategy:** First milestone: create uniquely identifiable
-  safe bills through the UI only if the shared demo data and cleanup
-  boundaries are suitable. Future: direct rule and persisted-state checks.
+- **Proposed test coverage:** FIN-002 checks the unsaved displayed total
+  around `$5,000.00`. BILL-001 would submit bills and confirm visible
+  awaiting-role routing; that transition remains separately conditional.
+  Server rule and persisted routing checks are future coverage.
+- **Automation strategy:** Submit uniquely identified test bills through
+  the UI and inspect visible awaiting-role routing. Server rule and
+  persisted-state checks remain conditional.
 - **Status:** Open — rule documented and visible; boundary outcomes
   untested.
 
@@ -144,14 +147,14 @@ interface outside the first milestone.
   Approved → Scheduled → Paid, rejection back to Draft, activity entries,
   and stale revision checks. Live list/detail confirmed some states and
   activity display.
-- **Proposed test coverage:** First milestone includes a read-only
-  snapshot of seeded bill state/activity. Observe an actual transition
-  only through a safe, uniquely controlled UI workflow; assess stale and
-  repeated transitions only with a controlled interface.
-- **Automation strategy:** First milestone: assert displayed status,
-  awaiting role, and seed activity for STATE-001. Future: positive
-  transition workflows when test data is isolated; concurrent/stale
-  server tests remain conditional.
+- **Proposed test coverage:** BILL-005 creates a uniquely identified
+  synthetic Draft and inspects its visible status; STATE-001 remains a
+  read-only snapshot of seeded state/activity. Submission, approval,
+  rejection, stale, and repeated transitions remain conditional.
+- **Automation strategy:** First milestone may create, submit, approve,
+  and reject uniquely labeled test bills through the UI. These records
+  may remain in the shared demo. Concurrent/stale server tests remain
+  conditional.
 - **Status:** Open — seeded pending state and displayed activity observed;
   actual transitions, persistence, and revision guards unverified.
 
@@ -171,13 +174,14 @@ interface outside the first milestone.
   integer cents and totals are derived from lines. The live bill form and
   detail page displayed a total matching the one visible line in the
   observed sample; this is not boundary or persistence evidence.
-- **Proposed test coverage:** Compare entered line values with displayed
-  totals near the documented `$5,000.00` approval threshold. Pure
-  calculations and persisted amounts require suitable project-owned code
-  or future access.
-- **Automation strategy:** First milestone: FIN-002 checks the unsaved UI
-  total at `$5,000.00` and `$5,000.01`. Future: deterministic
-  unit/server/DB checks for precision, validation, and persistence.
+- **Proposed test coverage:** FIN-002 compares unsaved line values with
+  the displayed total near `$5,000.00`; FIN-001 compares a created bill's
+  visible form and detail totals. Pure calculations and persisted amounts
+  require suitable project-owned code or future access.
+- **Automation strategy:** FIN-001 may create a uniquely identified
+  synthetic bill; FIN-002 remains unsaved. Neither needs to pay a bill.
+  Future: deterministic unit/server/DB checks for precision, validation,
+  and persistence.
 - **Status:** Open — a narrow threshold-adjacent display check is
   automated; rounding, caps, validation, routing, and persistence remain
   unverified. FIN-002 passed against the deployed demo on 2026-10-20.
@@ -220,14 +224,15 @@ interface outside the first milestone.
   P1** (financial-integrity override).
 - **Existing mitigation:** Docs describe pay-now for approved bills and
   per-bill payment-run/activity history. Real money rails are documented
-  as out of scope. No payment was executed.
-- **Proposed test coverage:** UI observation of eligibility, bill amount,
-  vendor, resulting visible status, and run link. Server/database
-  financial effect checks are conditional future coverage.
-- **Automation strategy:** First milestone: do not exercise payment
-  mutation without a safe, identifiable demo setup; document UI evidence
-  separately. Future: controlled integration and persistence checks.
-- **Status:** Open — payment behavior documented, not executed.
+  as out of scope. No payment was executed during reconnaissance.
+- **Proposed test coverage:** PAY-002 creates and pays a synthetic bill,
+  then compares visible vendor, amount, state, and run details.
+  Server/database financial-effect checks remain conditional.
+- **Automation strategy:** First milestone may execute Pay now on a
+  uniquely identified test bill through the UI. Report the result as UI
+  evidence; do not claim external settlement or persistence.
+- **Status:** Open — payment behavior documented; execution scenario
+  approved but not yet implemented or run.
 
 ### RISK-009 — Duplicate payment effect on repeat or retried action
 
@@ -245,12 +250,13 @@ interface outside the first milestone.
 - **Existing mitigation:** Product docs state stale/duplicate submissions
   are guarded and repeated process-due is a no-op. These are documentation
   claims, not independently verified results.
-- **Proposed test coverage:** Observe whether the UI prevents or explains
-  a repeated action if safely exposed. Prove no duplicate effect only
+- **Proposed test coverage:** PAY-003 may exercise a repeated payment
+  action only when a duplicate effect can be contained and the expected
+  UI behavior is documented. Prove no duplicate persisted effect only
   with a suitable server/database test interface.
-- **Automation strategy:** First milestone: record UI response/state only
-  if a safe repeated action can be exercised. Future: idempotency and
-  persisted effect assertions.
+- **Automation strategy:** A repeat action remains conditional despite
+  payment-workflow approval because a product defect could create a
+  duplicate effect. Future: authoritative idempotency assertions.
 - **Status:** Open — docs only; no repeat action executed.
 
 ### RISK-010 — Incorrect payment method or scheduled date
@@ -269,12 +275,11 @@ interface outside the first milestone.
 - **Existing mitigation:** Docs state dates are date-only and today or
   later; payment method defaults from vendor but can be overridden. No
   schedule action was executed.
-- **Proposed test coverage:** UI checks for method defaults/override and
-  allowed date boundaries, with visible post-schedule review. Exact
-  persisted scheduling and execution timing remain conditional.
-- **Automation strategy:** First milestone: UI checks only when a safe
-  unique approved bill is available. Future: server date/time-zone
-  boundary tests.
+- **Proposed test coverage:** PAY-004 checks method defaults/override and
+  date boundaries, then schedules a uniquely identified test bill and
+  inspects the visible result. Exact persisted timing remains conditional.
+- **Automation strategy:** UI scheduling of a synthetic approved bill is
+  approved. Future: server date/time-zone boundary tests.
 - **Status:** Open — rules documented; scheduling not exercised.
 
 ### RISK-011 — Concurrent or batch payment leaves partial/duplicate state
@@ -422,12 +427,13 @@ interface outside the first milestone.
 - **Existing mitigation:** Docs and Bills UI describe daily 13:00 UTC
   Auto-pay; product docs say cron and Run now share a processor. The cron
   endpoint and job were not invoked.
-- **Proposed test coverage:** Read-only UI review of due/next-run summary;
-  job cutoff, authorization, repeat, and resulting effects are
+- **Proposed test coverage:** PAY-006 exercises a synthetic scheduled bill
+  through process-due only if the action cannot affect unrelated bills.
+  Cron cutoff, authorization, repeat, and persisted effects remain
   conditional future coverage.
-- **Automation strategy:** First milestone: assert only safe visible
-  summaries. Future: controlled cron-route tests with authorization and
-  state/run/activity checks.
+- **Automation strategy:** A scoped UI process-due action is approved;
+  the global action remains conditional until its eligible bill set is
+  known. Future: controlled cron-route tests with authoritative state.
 - **Status:** Open — schedule visible/documented; cron unexecuted.
 
 ### RISK-017 — Bill/payment state differs from persisted financial state

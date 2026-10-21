@@ -1,6 +1,6 @@
 # Billio RBAC and UI Behavior Matrix
 
-Last reviewed: 2026-10-10
+Last reviewed: 2026-10-21
 
 ## Purpose and evidence boundary
 
@@ -73,6 +73,13 @@ The demo and seed data may change; re-check controls before turning these
 observations into automation expectations. Server-side authorization,
 authenticated identity, persistence, and no-mutation assertions remain
 conditional future work requiring safe documented interfaces.
+
+On 2026-10-21, the developer separately approved test creation of
+synthetic vendors and bills and payment workflow execution through the
+supported UI. This authorizes scenario setup/actions on uniquely
+identified test records; it does not change the role permissions in this
+matrix or establish server-side enforcement. No such mutation has yet
+been executed.
 
 The Playwright suite checks the “Run now” control for Bookkeeper and
 AP Manager on Bills, and the “New vendor” link for all three roles on

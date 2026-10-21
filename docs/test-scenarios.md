@@ -1,12 +1,12 @@
 # Billio Test Scenario Matrix
 
-Last reviewed: 2026-10-10
+Last reviewed: 2026-10-21
 
 ## Scope and usage
 
 This matrix maps every current risk in the [risk register](risk-register.md)
-to at least one scenario. It defines intended checks; no scenario in this
-document has been executed. The first-milestone layer is limited to visible
+to at least one scenario. It defines intended checks and marks implemented
+coverage separately. The first-milestone layer is limited to visible
 demo behavior. Server authorization, persisted financial effects,
 transaction atomicity, cron behavior, concurrency, and idempotency require
 future safe interfaces and are labelled conditional.
@@ -18,11 +18,12 @@ visibility), VEN-001 (vendor management link visibility for all three
 roles), STATE-001 (seeded pending state and activity display), and FIN-002
 (unsaved line total around the $5,000 boundary). All five current UI tests
 last passed on 2026-10-20; results are UI evidence only. Other scenarios
-and all lifecycle mutations have not been executed. Where
-a scenario changes demo data or uploads a fixture, it must use a unique,
-synthetic, identifiable record/file and follow the access and test-data
-boundaries. Do not infer persistence or server enforcement from a UI
-result.
+and no vendor, bill, or payment creation/execution scenario has yet been
+run. Test mutations may use uniquely identified synthetic vendors and
+bills through supported UI flows. Submission/approval and payment flows
+are approved only on test-created records; process-due must be scoped so
+it cannot pay unrelated bills. Do not infer persistence or server
+enforcement from a UI result.
 
 ## Scenarios
 
@@ -61,9 +62,32 @@ result.
 - **Test layer:** UI.
 - **Priority:** P1.
 - **Automation candidate:** Yes, for role-dependent UI controls;
-  unauthorized mutation and unchanged data are conditional future checks.
+  vendor creation is covered separately. Unauthorized mutation and
+  unchanged-data server assertions remain conditional future checks.
 - **Data requirements:** Seeded vendor directory; no mutation.
 - **Dependencies:** Deployed demo and role switcher.
+
+### VEN-002 — Create a uniquely identified synthetic vendor
+
+- **Risk ID:** RISK-002.
+- **Feature:** Vendor creation and displayed vendor data.
+- **Scenario:** As Controller, create a minimal synthetic vendor through
+  the supported UI and inspect its directory/detail representation.
+- **Preconditions:** Vendor form is available; required fields and any
+  payment-method defaults are known; fabricated contact/remittance data
+  are used.
+- **Expected result:** The new vendor is visible with its unique name and
+  selected documented defaults. This is UI evidence only and does not
+  prove persistence or server authorization.
+- **Test type:** Positive create / data display.
+- **Test layer:** UI.
+- **Priority:** P1.
+- **Automation candidate:** Yes, after spec review; use unique identifiers
+  and allow the synthetic vendor to remain in the demo.
+- **Data requirements:** Fabricated organization name and synthetic
+  values only; no real email, address, tax ID, or banking details.
+- **Dependencies:** Controller role, vendor creation UI, stable required
+  field labels and defaults.
 
 ### AUTH-001 — Creator cannot approve their own bill
 
@@ -92,9 +116,8 @@ result.
 - **Feature:** Approval threshold selection.
 - **Scenario:** Submit identifiable bills immediately below, at, and
   above `$5,000.00`.
-- **Preconditions:** Safe unique bill records can be created through the
-  UI; active vendor and expense GL account are available; form supports
-  the amounts; shared-demo mutation boundaries are acceptable.
+- **Preconditions:** Unique synthetic vendor and bill can be created via
+  supported UI; form supports the amounts; threshold policy is visible.
 - **Expected result:** Standard amount below `$5,000.00` awaits AP Manager;
   `$5,000.00` and above await Controller, per the seeded policy shown in
   Settings and described in product docs. This establishes visible
@@ -102,9 +125,9 @@ result.
 - **Test type:** Boundary / workflow.
 - **Test layer:** UI; rule persistence/server checks conditional.
 - **Priority:** P1.
-- **Automation candidate:** Conditional, because submitting bills changes
-  shared demo data; use unique identifiers and a documented safe-data
-  approach before automating.
+- **Automation candidate:** Yes, after spec review; create uniquely
+  identified vendor/bills, submit each, and inspect the awaiting role.
+  The records may remain in the demo.
 - **Data requirements:** Synthetic invoice numbers and amounts below,
   equal to, and above the threshold; active vendor and expense GL.
 - **Dependencies:** Stable seeded threshold policy; UI allows safe bill
@@ -114,24 +137,24 @@ result.
 
 - **Risk ID:** RISK-005.
 - **Feature:** Bill lifecycle.
-- **Scenario:** Create a minimal synthetic draft, submit it, and inspect
-  its pending state and awaiting role; use an eligible approver only if
-  the test data is explicitly safe to mutate.
-- **Preconditions:** Safe unique test record; known active vendor and GL;
+- **Scenario:** Create a minimal synthetic bill, submit it, inspect its
+  pending state and awaiting role, then approve it as an eligible
+  non-creator reviewer and inspect Approved state.
+- **Preconditions:** Unique test-created bill; known active vendor and GL;
   expected approver role is determined from Settings before submission.
 - **Expected result:** Docs specify Draft → Pending approval → Approved.
-  After submission, the bill shows Pending approval and the expected
-  awaiting role. If approval is separately exercised, an eligible
-  non-creator approver moves it to Approved and the detail reflects that
-  state. UI state is not persistence proof.
+  The bill shows Pending approval and the expected awaiting role after
+  submission, then Approved after the eligible reviewer acts. UI state is
+  not persistence proof.
 - **Test type:** Positive lifecycle workflow.
 - **Test layer:** UI.
 - **Priority:** P1.
-- **Automation candidate:** Conditional, because creation/submission and
-  approval mutate shared demo data.
-- **Data requirements:** Unique synthetic bill and safe test vendor.
-- **Dependencies:** Documented lifecycle, role switcher, stable seed
-  policy, safe data strategy.
+- **Automation candidate:** Yes, after spec review; use a test-created
+  bill and explicitly select the documented approver role. This scenario
+  does not pay the bill.
+- **Data requirements:** Unique synthetic vendor and bill.
+- **Dependencies:** Documented lifecycle, role switcher, stable policy,
+  supported vendor/bill UI, and safe data strategy.
 
 ### BILL-003 — Rejection requires a reason and returns to revision
 
@@ -148,8 +171,8 @@ result.
 - **Test type:** Negative validation and workflow.
 - **Test layer:** UI.
 - **Priority:** P1.
-- **Automation candidate:** Conditional; rejection changes shared demo
-  data and needs an isolated, identifiable record.
+- **Automation candidate:** Yes, after spec review; reject only a unique
+  test-created bill and retain the resulting Draft for review.
 - **Data requirements:** Safe pending bill and synthetic rejection text.
 - **Dependencies:** Rejection controls and documented rejection rule.
 
@@ -177,6 +200,30 @@ result.
 - **Dependencies:** Safe server test interface and reliable state
   observation.
 
+### BILL-005 — Create and inspect a uniquely identified Draft bill
+
+- **Risk ID:** RISK-005.
+- **Feature:** Bill creation and Draft state display.
+- **Scenario:** Create one minimal synthetic bill through the supported
+  new-bill UI and inspect its resulting detail page.
+- **Preconditions:** New-bill form is available; a synthetic or seeded
+  active vendor and expense GL account can be selected; Create saves a Draft
+  without submitting it.
+- **Expected result:** A bill detail is visible with the unique synthetic
+  invoice number, selected vendor, entered line amount, and Draft status.
+  Do not submit or perform any decision/payment action. This is visible UI
+  evidence only, not proof of persistence.
+- **Test type:** Positive create / state display.
+- **Test layer:** UI.
+- **Priority:** P1.
+- **Automation candidate:** Yes, after scenario review; create serially
+  with a unique run ID. The synthetic Draft may remain in the shared demo.
+- **Data requirements:** One minimal bill using fixed synthetic values,
+  an active vendor, and active expense GL; unique invoice
+  number `test-bill-<UTC-run-id>-BILL-005`.
+- **Dependencies:** Supported bill creation UI, stable Draft detail
+  fields, and an existing active vendor/account.
+
 ### STATE-001 — Seeded pending approval state and activity snapshot
 
 - **Risk ID:** RISK-005.
@@ -198,26 +245,29 @@ result.
 - **Data requirements:** Existing seeded bill ACME-10501; no mutation.
 - **Dependencies:** Demo availability, stable seed details, role switcher.
 
-### FIN-001 — Bill total matches entered line amounts
+### FIN-001 — Created Draft total matches entered line amounts
 
 - **Risk ID:** RISK-006.
 - **Feature:** Financial calculations.
-- **Scenario:** Enter multiple simple synthetic line amounts and compare
-  the displayed total with the arithmetic sum on the form and bill detail.
-- **Preconditions:** Safe UI-created bill; amount inputs accept the
-  selected simple decimal values; no tax/rounding rule is assumed.
+- **Scenario:** Create a uniquely identified Draft with multiple simple
+  synthetic line amounts and compare the displayed total with their
+  arithmetic sum on the form and bill detail.
+- **Preconditions:** New-bill UI, an active vendor and expense
+  GL; amount inputs accept selected simple decimal values; no
+  tax/rounding rule is assumed. The Draft may remain in the shared demo.
 - **Expected result:** The displayed bill total equals the sum of visible
   line amounts for the selected values, and the detail repeats the
-  submitted lines and total. This checks visible arithmetic only; exact
+  saved Draft lines and total. This checks visible arithmetic only; exact
   rounding limits and persisted amount are separate unknowns.
 - **Test type:** Calculation / UI consistency.
 - **Test layer:** UI; unit/server/DB checks conditional.
 - **Priority:** P1.
-- **Automation candidate:** Conditional yes, after safe test-data setup;
+- **Automation candidate:** Yes, after scenario review; create serially
+  with a unique run ID. This does not include submission or approval;
   deterministic calculation logic cannot be tested here without
   project-owned code.
 - **Data requirements:** Unique synthetic bill with two or more simple
-  positive amounts.
+  positive amounts, vendor, and expense GL.
 - **Dependencies:** New-bill UI and stable total display.
 
 ### FIN-002 — Unsaved line total across the approval threshold
@@ -278,7 +328,8 @@ result.
 - **Test layer:** UI.
 - **Priority:** P1.
 - **Automation candidate:** Yes for visibility and displayed values;
-  actually submitting a payment is a separate, conditional mutation.
+  Pay Now on a test-created bill is covered by PAY-002. UI visibility
+  does not establish server enforcement.
 - **Data requirements:** Existing Approved and non-approved bills.
 - **Dependencies:** Stable seeded bills and payment controls.
 
@@ -286,21 +337,25 @@ result.
 
 - **Risk ID:** RISK-008.
 - **Feature:** Payment amount/vendor association.
-- **Scenario:** If a payment is explicitly authorized for a safe demo bill,
-  compare pre-action bill vendor/total with post-action bill status,
-  payment-run summary, and visible activity/journal details.
-- **Preconditions:** Dedicated identifiable bill is safe to pay; approved
-  state and expected total are visible; UI payment action is available.
+- **Scenario:** Create and approve a uniquely identified synthetic bill,
+  execute Pay now, then compare pre-action vendor/total with post-action
+  bill status, payment-run summary, and visible activity/journal details.
+- **Preconditions:** Supported vendor/bill/approval UI is available; the
+  bill is created for this scenario and its approved state and expected
+  total are visible; payment UI is available.
 - **Expected result:** Visible payment history and resulting bill detail
   refer to the same bill/vendor and amount, and the bill shows Paid as
   documented. This does not prove a persisted or external payment effect.
 - **Test type:** Positive payment workflow / UI consistency.
 - **Test layer:** UI; API/DB reconciliation conditional.
 - **Priority:** P1.
-- **Automation candidate:** No by default in shared demo; reconsider only
-  with a safely isolated test bill and explicit cleanup boundaries.
-- **Data requirements:** Dedicated synthetic bill approved for payment.
-- **Dependencies:** Safe mutation authorization, payment UI, run history.
+- **Automation candidate:** Yes, after spec review; execute only on a
+  uniquely identified test bill. The payment and bill may remain in the
+  demo. This does not establish external settlement.
+- **Data requirements:** Synthetic vendor and bill, approved test bill,
+  expected amount, and Pay now action.
+- **Dependencies:** Vendor/bill creation, documented approval route,
+  payment UI, run history.
 
 ### PAY-003 — Repeated Pay now / process-due behavior
 
@@ -317,8 +372,9 @@ result.
 - **Test type:** Idempotency / repeat-action observation.
 - **Test layer:** UI observation first milestone; server/DB conditional.
 - **Priority:** P1.
-- **Automation candidate:** No for shared demo by default; future
-  controlled integration test is preferred.
+- **Automation candidate:** Conditional. The demo action is authorized,
+  but repeat execution is suitable only if the UI clearly prevents a
+  second effect or the test environment can contain a potential duplicate.
 - **Data requirements:** Dedicated scheduled or approved bill in a safe
   controlled state.
 - **Dependencies:** Safe payment test data; persisted run/effect visibility
@@ -340,9 +396,33 @@ result.
 - **Test layer:** UI; server date-boundary checks conditional.
 - **Priority:** P1.
 - **Automation candidate:** Yes for form defaults/options and visible
-  validation if stable; schedule submission is conditional mutation.
+  validation; scheduling a test-created Approved bill is authorized.
 - **Data requirements:** Approved bill with known vendor payment method.
 - **Dependencies:** Payment scheduling UI and documented rule.
+
+### PAY-006 — Scheduled test bill becomes Paid through process-due
+
+- **Risk ID:** RISK-016.
+- **Feature:** Scheduled payment execution.
+- **Scenario:** Create a synthetic vendor and bill, submit and approve
+  the bill, schedule it for a controlled due date, then execute the
+  documented process-due UI action and inspect the result.
+- **Preconditions:** The demo exposes a way to scope process-due to the
+  test bill, or inspection confirms there are no unrelated due bills that
+  the action could process. Method/date and expected bill total are
+  visible before execution.
+- **Expected result:** The test bill changes from Scheduled to Paid and
+  the visible payment-run/activity details identify the same bill and
+  amount. The UI result does not prove external settlement or persistence.
+- **Test type:** Positive scheduled payment workflow.
+- **Test layer:** UI.
+- **Priority:** P1.
+- **Automation candidate:** Conditional on safe scoping of the global
+  process-due action. Do not run it if unrelated bills may be paid.
+- **Data requirements:** Unique synthetic vendor and bill, controlled
+  schedule date, payment method, and expected amount.
+- **Dependencies:** Vendor/bill creation, submit/approval flow, scheduling
+  form, process-due UI, visible run history.
 
 ### PAY-005 — Batch scheduling rejects stale selection atomically
 
@@ -359,8 +439,9 @@ result.
 - **Test type:** Concurrency / atomicity negative test.
 - **Test layer:** Server/integration + database, conditional future work.
 - **Priority:** P1.
-- **Automation candidate:** No in current first milestone; conditional
-  when isolated data and concurrency control exist.
+- **Automation candidate:** Conditional on a reliable way to make one
+  selected test bill stale without affecting seeded bills; server-side
+  atomicity still requires authoritative state access.
 - **Data requirements:** Multiple controlled Approved bills and one
   deliberately stale selection.
 - **Dependencies:** Safe test environment, concurrent action interface,
@@ -555,10 +636,10 @@ result.
 | Risk ID | Scenario IDs |
 |---|---|
 | RISK-001 | RBT-001 |
-| RISK-002 | VEN-001 |
+| RISK-002 | VEN-001, VEN-002 |
 | RISK-003 | AUTH-001 |
 | RISK-004 | BILL-001 |
-| RISK-005 | BILL-002, BILL-003, BILL-004, STATE-001 |
+| RISK-005 | BILL-002, BILL-003, BILL-004, BILL-005, STATE-001 |
 | RISK-006 | FIN-001, FIN-002 |
 | RISK-007 | GL-001 |
 | RISK-008 | PAY-001, PAY-002 |
@@ -569,19 +650,20 @@ result.
 | RISK-013 | INV-001 |
 | RISK-014 | INV-002 |
 | RISK-015 | REC-001, REC-002 |
-| RISK-016 | CRON-001 |
+| RISK-016 | PAY-006, CRON-001 |
 | RISK-017 | DB-001 |
 | RISK-018 | DASH-001 |
 
 ## First-milestone candidates
 
-The following scenarios have a plausible read-only UI automation path:
-RBT-001, VEN-001, STATE-001, FIN-002, GL-001, AUD-001, REC-001, and DASH-001 when the
-relevant records and dates are stable. BILL-001–003, FIN-001, PAY-002,
-PAY-003, PAY-004, and INV-001–002 can change shared demo data or transmit
-files; treat them as conditional until safe unique test data and
-dependencies are established. BILL-004, PAY-005, REC-002, CRON-001, and
-DB-001 are conditional future server/integration/database work.
+The following scenarios have a plausible UI automation path with read-only
+data or uniquely identified synthetic test records: RBT-001, VEN-001/002,
+STATE-001, BILL-001/002/003/005, FIN-001/002, GL-001, AUD-001, REC-001,
+DASH-001, PAY-001/002/004. PAY-006 is conditional on safely scoping
+process-due; PAY-003 requires containment for a potential duplicate
+effect. INV-001/002 require synthetic-file review. BILL-004, PAY-005,
+REC-002, CRON-001, and DB-001 remain conditional on controlled state,
+server/integration/database access, or isolation.
 
 ## Evidence references
 

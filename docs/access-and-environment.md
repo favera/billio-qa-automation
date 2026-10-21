@@ -1,6 +1,6 @@
 # Billio QA Project: Access and Environment
 
-Last reviewed: 2026-10-08
+Last reviewed: 2026-10-21
 
 ## Repository relationship
 
@@ -29,8 +29,20 @@ behavior. Use only synthetic, non-sensitive fixtures when exercising it.
 
 ## Data and safety boundaries
 
-- Creating and changing identifiable demo data is permitted.
-- Use unique, recognizable test records where the UI allows it.
+- The Billio developer has approved creating test vendors and bills and
+  executing payment workflows in the demo through supported UI flows.
+  Use synthetic values and unique identifiers. A payment scenario may
+  create and submit a bill, approve it using the documented demo role,
+  then pay that test bill or schedule it for controlled process-due
+  coverage.
+- Vendor creation is in scope; vendor edit/archive/reactivation is not
+  included unless a scenario specifically requires separate review.
+- Synthetic vendors, bills, and payment records may remain in the shared
+  demo. No safe deletion, reset, or cleanup path is assumed. Never clean
+  up broadly or mutate seeded business records for test setup.
+- Before a global process-due action, establish that it cannot pay
+  unrelated bills. If the eligible set cannot be scoped to test data,
+  keep that execution manual/deferred.
 - Avoid broad or destructive cleanup.
 - No database access is available; do not claim persistence, transaction,
   or ledger validation from UI observations.
