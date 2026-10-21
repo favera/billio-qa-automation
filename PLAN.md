@@ -571,8 +571,10 @@ Use only roles actually exposed by the demo and documented by the application.
 Initial safe, read-only suite implemented and run on 2026-10-11. See
 [`tests/authorization/role-access.spec.ts`](tests/authorization/role-access.spec.ts)
 for RBT-001 role-option/payment-control checks and VEN-001 vendor-control
-checks. Mutating workflows remain deferred under the test-data safety
-rules.
+checks. Update 2026-10-21: the developer approved synthetic vendor/bill
+creation and payment workflows through supported UI flows. Those scenarios
+are not yet implemented or executed; use uniquely identified test records
+and keep process-due scoped to test bills.
 
 The first automation should not attempt to cover everything.
 
@@ -591,12 +593,17 @@ Select only scenarios supported by observed UI and documented expectations. Assi
 
 - [x] Verify restricted actions are unavailable or visible by selected role for the selected read-only scenarios
 
+### Vendors
+
+- [ ] Create a uniquely identified synthetic vendor as Controller
+- [ ] Inspect displayed vendor defaults and use fabricated values only
+
 ### Bills
 
-- [ ] Create bill
-- [ ] Correct lifecycle transition
-- [ ] Reject bill
-- [ ] Approval threshold boundary
+- [ ] Create a uniquely identified synthetic bill and inspect its Draft details
+- [ ] Submit and approve a test-created bill; inspect each visible transition
+- [ ] Reject a dedicated test-created bill and inspect Needs revision
+- [ ] Exercise approval-threshold routing with test-created bills
 - [ ] Invalid state transition
 
 ### Approval
@@ -607,11 +614,10 @@ Select only scenarios supported by observed UI and documented expectations. Assi
 
 ### Payments
 
-- [ ] Approved bill can be paid
+- [ ] Pay an approved test-created bill and compare visible vendor, amount, status, and run details
+- [ ] Schedule an approved test-created bill and inspect visible method/date/state
+- [ ] Process a due test bill only when unrelated bills cannot be affected
 - [ ] UI blocks payment for an unapproved bill, if this state/action is exposed
-- [ ] Correct payment amount
-- [ ] Correct vendor
-- [ ] Correct payment date
 - [ ] Repeated payment action behavior observed, if safely testable; no persistence/idempotency claim
 
 ### Data integrity
@@ -764,6 +770,32 @@ synthetic records and are candidate scenarios, but are not implemented.
 Zero/negative/maximum and rounding validation, global process-due, and
 persisted financial outcomes remain conditional on safe scope or deeper
 access.
+
+Follow-up from the expanded test-data approval: implement FIN-001 with a
+uniquely identified bill and compare entered line values to the saved
+Draft detail. Keep FIN-002 unsaved. Add submitted threshold-routing
+coverage through BILL-001; do not treat either UI result as proof of
+persisted financial state.
+
+## Earlier phase review after the expanded approval (2026-10-21)
+
+| Phase | Review | Follow-up |
+|---|---|---|
+| 0–1: Access and reconnaissance | No new application access or capability evidence was granted; existing scope remains accurate. | No repeat required. |
+| 2–4: Risk strategy, register, scenarios | Risks and scenario matrix now include synthetic vendor/bill creation and test-bill payment flows. | Documentation re-baselined; scenario execution remains pending review/implementation. |
+| 5: RBAC | Demo role permissions are unchanged; approval authorizes test actions but does not change Billio role policy or prove server enforcement. | No matrix permission changes; retain UI-only evidence limits. |
+| 6–8: Architecture and tooling | Playwright architecture now calls for serial, uniquely identified UI mutations. Existing stack remains suitable. | No bootstrap/configuration rework required. |
+| 9: Test data | Vendor/bill creation, retained records, and payment test data are covered. | Strategy re-baselined; no API/DB factory or cleanup work is enabled. |
+| 10: Role selection | Explicit demo-role selection remains suitable for documented UI workflows. | No fixture change required. |
+| 11: UI suite | Existing automation is read-only; new approved mutation scenarios are not implemented. | After scenario review, add VEN-002, BILL-001/002/005, FIN-001, PAY-002/004. Add PAY-006 only if process-due is safely scoped. |
+| 12–13: API/server and database | Source, backend interface, and database access remain unavailable. UI mutation approval does not grant these interfaces. | No execution work; keep conditional access gates. |
+| 14–15: Lifecycle and financial boundaries | Docs and scenarios now include bill transitions and payment setup; FIN-002 remains the only relevant automated boundary check. | Implement the Phase 11 scenarios above; assert visible outcomes only. |
+| 16 and 19: Idempotency and cron | Duplicate-effect, concurrent, and global cron/process-due risks remain uncontrolled. | Keep conditional until isolated state or a reliably scoped action is available. |
+
+The authorized scope therefore creates implementation follow-up in Phases
+11, 14, and 15. Earlier planning/documentation phases have been updated;
+they do not need to be restarted. No specs have been changed pending the
+scenario review.
 
 Prioritize boundary values.
 
